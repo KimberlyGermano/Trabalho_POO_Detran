@@ -4,33 +4,41 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Inicializando listas para armazenar ocorrências, regras e multas
         List<Ocorrencia> ocorrencias = new ArrayList<>();
         List<RegraMulta> regras = new ArrayList<>();
         List<Multa> multas = new ArrayList<>();
 
-        // Inicialize dados
-        ocorrencias.add(new Ocorrencia("Av. Paulista", 50, 22));
-        ocorrencias.add(new Ocorrencia("Rua da Consolação", 40, 18));
+        // Passo 1: Inicializar dados de exemplo
+        // Adicionando ocorrências
+        ocorrencias.add(new Ocorrencia("Avenida Washington Luiz", 80, 22)); // Excesso de velocidade
+        ocorrencias.add(new Ocorrencia("Avenida Santo Amaro", 0, 22));      // Corredor de ônibus
+        ocorrencias.add(new Ocorrencia("Avenida Bandeirantes", 50, 9));     // Rodízio
 
-        regras.add(new RegraCorredorOnibus(6, 20, "Av. Paulista"));
+        // Adicionando regras
+        regras.add(new RegraVelocidade(60, "Avenida Washington Luiz")); // Limite 60 km/h
+        regras.add(new RegraCorredorOnibus(6, 23, "Avenida Santo Amaro")); // Corredor das 6h às 23h
+        regras.add(new RegraRodizio(2, new String[]{"Avenida Bandeirantes"}, 7, 10)); // Rodízio segunda-feira
 
-        // Verifique as multas
+        // Passo 2: Processar ocorrências
         for (Ocorrencia ocorrencia : ocorrencias) {
             for (RegraMulta regra : regras) {
-                Multa multa = regra.calcularMulta(ocorrencia);
+                Multa multa = regra.calcularMulta(ocorrencia); // Aplicar regra
                 if (multa != null) {
-                    multas.add(multa);
+                    multas.add(multa); // Adicionar multa gerada
                 }
             }
         }
 
-        // Exiba as multas
+        // Passo 3: Exibir todas as multas geradas
+        System.out.println("Multas Geradas:");
         if (multas.isEmpty()) {
-            System.out.println("Nenhuma multa registrada.");
+            System.out.println("Nenhuma multa foi registrada.");
         } else {
             for (Multa multa : multas) {
-                System.out.println(multa);
+                System.out.println(multa); // Usa o método toString da classe Multa
             }
         }
     }
 }
+
