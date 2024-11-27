@@ -13,17 +13,23 @@ public class RegraCorredorOnibus extends RegraMulta {
 
     @Override
     public int verificaNivelMulta(Ocorrencia o) {
-        // Verifica se a ocorrência foi no logradouro e fora do horário permitido
-        if (o.getNomeLogradouro().equalsIgnoreCase(nomeLogradouro)) { // Método correto
-            int horaOcorrencia = o.getHorario(); // Método correto
+        // Verifica se a ocorrência foi no logradouro correto
+        if (o.getNomeLogradouro().equalsIgnoreCase(nomeLogradouro)) {
+            int horaOcorrencia = o.getHorario(); // Hora da ocorrência
 
-            // Se a ocorrência está fora do horário permitido, aplica a multa
+            // Depuração: Verificando a hora da ocorrência e os limites de horário
+            System.out.println("Verificando a ocorrência na " + o.getNomeLogradouro() + " às " + horaOcorrencia + "h");
+            System.out.println("Comparando com intervalo de " + horaInicial + "h a " + horaFinal + "h");
+
+            // Verifica se a ocorrência está fora do intervalo permitido
             if (horaOcorrencia < horaInicial || horaOcorrencia > horaFinal) {
-                // Retorna um nível de multa baseado no quão fora do horário a ocorrência foi
-                if (horaOcorrencia < horaInicial - 1 || horaOcorrencia > horaFinal + 1) {
-                    return 2; // Multa mais alta para horário fora do limite permitido em 1 hora
+                // Se a ocorrência está fora do intervalo de 1 hora antes ou depois, aplica a multa grave
+                if (horaOcorrencia < (horaInicial - 1) || horaOcorrencia > (horaFinal + 1)) {
+                    System.out.println("Multa Nível 2: Fora do intervalo de 1 hora");
+                    return 2; // Nível 2
                 } else {
-                    return 1; // Multa padrão para horário fora do intervalo permitido
+                    System.out.println("Multa Nível 1: Fora do intervalo, mas dentro de 1 hora");
+                    return 1; // Nível 1
                 }
             }
         }
@@ -34,13 +40,16 @@ public class RegraCorredorOnibus extends RegraMulta {
     public Multa calcularMulta(Ocorrencia o) {
         int nivelMulta = verificaNivelMulta(o);
 
+        // Depuração: Verificando o nível da multa
+        System.out.println("Nível da multa: " + nivelMulta);
+
+        // Cria a multa com base no nível
         if (nivelMulta == 1) {
             return new Multa(150.0, obterDescricaoMulta() + " - Nível 1", new Date(), o.getPlaca());
         } else if (nivelMulta == 2) {
             return new Multa(300.0, obterDescricaoMulta() + " - Nível 2", new Date(), o.getPlaca());
-        } else {
-            return null; // Sem multa se o nível for 0
         }
+        return null; // Sem multa se o nível for 0
     }
 
     @Override

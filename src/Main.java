@@ -13,7 +13,7 @@ public class Main {
         // Adicionando ocorrências
         ocorrencias.add(new Ocorrencia("Avenida Washington Luiz", 80, 22)); // Excesso de velocidade
         ocorrencias.add(new Ocorrencia("Avenida Santo Amaro", 0, 22));      // Corredor de ônibus
-        ocorrencias.add(new Ocorrencia("Avenida Bandeirantes", 50, 9));     // Rodízio
+        ocorrencias.add(new Ocorrencia("Avenida Bandeirantes", 50, 23));     // Rodízio
 
         // Adicionando regras
         regras.add(new RegraVelocidade(60, "Avenida Washington Luiz")); // Limite 60 km/h
